@@ -1,0 +1,162 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[a4paper, left=2.5cm, right=2.5cm, bottom=2.5cm, top=3.5cm,
+headheight=1cm]{geometry}
+\usepackage{polyglossia}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+
+\setmainfont[Ligatures=TeX]{Noto Serif}
+\newfontfamily\cyrillicfont[Script=Cyrillic]{Noto Serif}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\noskip}{\vspace{-\parskip}}
+
+\setmainlanguage{bulgarian}
+\PolyglossiaSetup{bulgarian}{indentfirst=true}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\setlist{nosep}
+
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\thesection}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage}
+\chead{\uppercase{Национална школа по информатика \\Стара Загора, 24-30 август
+2017 г.}}
+\renewcommand{\headrulewidth}{0pt}
+
+\title{Открий числото}
+\author{Александър Кръстев}
+\date{}
+
+\makeatletter
+\begin{document}
+{%
+    \centering \LARGE 
+    \textbf{\@title}
+    \par
+}
+%\vspace{0.5cm}
+
+Ави и Боби играят следната игра:
+Ави си е намисля редица от $N$ числа $a_0,a_1,...a_{N-1}$, подредени в строго
+нарастващ ред, т.е. $a_i < a_{i+1}$ за всяко $0 \leq i \leq N-2$.
+След това тя избира едно число от редицата $a_k$ и го съобщава на Боби.
+Боби трябва да намери индекса на числото (т.е $k$) като може да задава
+на Ави въпроси от вида „Каква е стойността на $a_i$ ?“ за избрана от него
+стоиност $i$.
+
+Вашата задача е да напишете програма, играеща ролята на Боби, която да намира
+индекса $k$ на избраното от Ави число $a_k$, задавайки най-много $Q$ въпроса.
+
+
+\section*{Детайли по имплментацията}
+Вашата програма трябва да съдържа в началото си \code{\#include "findnumber.h"}.
+\\
+Вашата програма трябва да реализира следната функция:
+
+\noskip
+\begin{itemize}
+    \item \code{int find\_index(int N, int a)}
+    \begin{itemize}
+        \item \code{N}: дължината на намислената от Ави редица
+        \item \code{a}: стойността на избраното от Ави число $a_k$
+        \item Функцията трябва да връща стойността на индекса $k$.
+        \item Функцията се вика веднъж за всеки тест.
+    \end{itemize}
+\end{itemize}
+
+Вашата програма може да задава върпоси, използвайки следната функция:
+\noskip
+\begin{itemize}
+    \item \code{int get\_number(int i)}
+    \begin{itemize}
+        \item \code{i}: индексът на числото, за което Вашата програма пита.
+            $i$ трябва да е валиден индекс, т.е $0 \leq i \leq N - 1$.
+        \item Функцията връща стойността на $a_i$.
+        \item Функцията може да се вика $Q$ пъти за един тест.
+    \end{itemize}
+\end{itemize}
+
+
+В случай, че наруши ограниченията за параметъра на \code{get\_number}, ще
+получите съобщение „Invalid question asked.“.
+
+В случай, че извикате функцията \code{get\_number} повече от $Q$ пъти, ще
+получите съощение „Too many questions asked.“.
+
+\section*{Пример}
+Грейдърът извършва следното извикване на функция:
+\noskip
+\begin{itemize}
+    \item \code{find\_index(5, 3)} Ави е намислилиа редица с $N=5$ елемента и
+        Боби търси индекса на числото със стойност $3$.
+\end{itemize}
+Програмата извършва следните извиквания на функции:
+\noskip
+\begin{itemize}
+    \item \code{get\_number(0)} връща 0
+    \item \code{get\_number(3)} връща 7
+    \item \code{get\_number(1)} връща 1
+    \item \code{get\_number(2)} връща 3
+    \item \code{get\_number(4)} връща 5
+\end{itemize}
+
+Редицата на Ави е $0, 1, 3, 5, 7$ и индексът на търсената стойност $3$ е $2$.
+Съответно \code{find\_index} трябва да върне $2$.
+
+\section*{Подзадачи}
+Във всички подзадачи $0 \leq a_i \leq 10^9$ за всяко $0 \leq i \leq N - 1$.
+
+Нека означим с $Q$ максималния разрешен брой извиквания на \code{get\_number} за
+едно изпълнение на програмата.
+\noskip
+\begin{enumerate}
+    \item (50 точки) $1 \leq N \leq 100\ 000$, $Q = 100\ 000$
+    \item (50 точки) $1 \leq N \leq 100\ 000$, $Q = 17$
+\end{enumerate}
+\section*{Локално тестване}
+За да можете да тествате решението си на компютъра си, Ви се предоставят
+файловете \code{Lgrader.cpp} и \code{findnumber.h}, които да компилирате
+заедно с Вашето решение \code{findnumber.cpp}.
+
+\noskip
+\subsection*{Вход}
+\noskip
+\begin{itemize}
+    \item Ред 1: три цели числа $N$, $k$ и $Q$
+    \item Ред 2: $N$ числа $a_0, a_1, ..., a_{N-1}$
+\end{itemize}
+\noskip
+\subsection*{Изход}
+\noskip
+\begin{itemize}
+    \item Ред 1:
+    \begin{itemize}
+        \item \textit{„Output is correct.“},
+            ако програмата е преминала успешно теста.
+        \item \textit{„Invalid question.“},
+            ако пограмата е задала въпрос за стойността на невалиден индекс $i$.
+        \item \textit{„Too many questions asked.“},
+            ако програмата е извършила повече от $Q$ извиквания на
+            \code{get\_number}.
+        \item \textit{„Output isn't correct.“},
+            ако програмата не е надвишила максималния разрешен брой въпроси, но
+            не е намерила правилно търсения индекс $k$.
+    \end{itemize}
+\end{itemize}
+
+\section*{Изпращане на тестове към системата}
+Можете да изпращате собствени тестове към системата. Форматът на входните и
+изходните данни е същият като този на предоставения локалнен грейдър.
+\end{document}
+\makeatother

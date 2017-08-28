@@ -1,0 +1,190 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[a4paper, left=2.5cm, right=2.5cm, bottom=2.5cm, top=3.5cm,
+headheight=1cm]{geometry}
+\usepackage{polyglossia}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\setmainfont[Ligatures=TeX]{Noto Serif}
+\newfontfamily\cyrillicfont[Script=Cyrillic]{Noto Serif}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\noskip}{\vspace{-\parskip}}
+
+\setmainlanguage{bulgarian}
+\PolyglossiaSetup{bulgarian}{indentfirst=true}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\setlist{nosep}
+
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\thesection}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage}
+\chead{\uppercase{Национална школа по информатика \\Стара Загора, 24-30 август
+2017 г.}}
+\renewcommand{\headrulewidth}{0pt}
+
+\title{Планина}
+\author{Александър Кръстев}
+\date{}
+
+\makeatletter
+\begin{document}
+{%
+    \centering \LARGE 
+    \textbf{\@title}
+    \par
+}
+%\vspace{0.5cm}
+
+Ави е на поход по планинска пътека, раделена на $N$ участъка.
+Надморските височини на участъците се характеризират от редицата 
+$a_0, a_1, ..., a_{N-1}$.
+Макар и да е в добра физическа форма, Ави е поела по полегата пътека - 
+такава, че разликите във височините на всеки два съседни участъка не надвишава
+$1$, т.е. $|a_{i+1} - a_i| \leq 1$ за всяко $0 \leq i \leq N-2$.
+
+Момичето иска да изпрати на приятеля си Боби редицата $a$.
+Ако сте ходили на планина обаче, ще знаете, че обхватът там (и съответно
+мобилният интернет на Ави) е ужасен. 
+Поради тази причина тя не може да изпрати повече от $M_{max}$ бита на приятеля
+си.
+
+Вашата задача е да напишете \textit{две програми}, чрез които Ави да може да
+изпрати редицата $a$ на Боби, използвайки най-много $M_{max}$ бита.
+\begin{itemize}
+    \item Първата програма получава редицата $a$ и я кодира в $M$ бита
+        $b_0, b_1, ..., b_{M-1}$.
+    \item Втората програма получава генерираните от първата програма битове $b$
+        и дължината на пътеката $N$ и трябва да възстанови оригиналната редица
+        $a$.
+\end{itemize}
+
+\section*{Детайли по имплментацията}
+Трябва да изпратите два сорс файла \code{avi.cpp} и \code{bobi.cpp}, реализиращи
+двете програми.
+
+Освен долните функции, Вашите програми могат да ползват и реализират други
+вътрешни функции и глобални променливи.
+Тъй като изпратените от Вас два сорс файла ще бъдат компилирани заедно с грейдър
+в една програма, тези вътрешни функции и глобални променливи трябва да бъдат
+декларирани с ключовата дума \code{static}. 
+
+За всеки тест така компилираната програма ще бъде изпълнена два пъти - веднъж
+изпълнявайки програмата на Ави и веднъж тази на Боби.
+\noskip
+\subsection*{avi.cpp}
+\noskip
+В началото си Вашата програма \code{avi.cpp} трябва да съдържа 
+\code{\#include "avi.h"}.\\
+Вашата програма \code{avi.cpp} трябва да реализира следната функция:
+\noskip
+\begin{itemize}
+    \item \code{std::vector<bool> encode(std::vector<int> a, int m\_max)}
+    \begin{itemize}
+        \item \code{a}: редицата от височините на участъците на пътеката
+        \item \code{m\_max}: максималният брой битове $M_{max}$, които Ави може
+            да изпрати на Боби.
+        \item Функцията трябва да връща редица $b$ с дължина $M \leq M_{max}$ -
+            съобщението, което Ави изпраща на Боби.
+        \item Функцията се вика веднъж за всеки тест.
+    \end{itemize}
+\end{itemize}
+
+В случай, че вашата функция \code{encode} върне редица с повече от $M_{max}$
+бита, ще получите съобщение „Output isn’t correct.“.
+
+\noskip
+\subsection*{bobi.cpp}
+\noskip
+В началото си Вашата програма \code{bobi.cpp} трябва да съдържа 
+\code{\#include "bobi.h"}.\\
+Вашата програма \code{bobi.cpp} трябва да реализира следната функция:
+\noskip
+\begin{itemize}
+    \item \code{std::vector<int> decode(std::vector<bool> b, int N)}
+    \begin{itemize}
+        \item \code{b}: съобщението, чрез което вашата програма \code{avi.cpp}
+            е кодирала $a$
+        \item \code{N}: броя участъци в пътеката.
+        \item Функцията трябва да връща редица $а$ с дължина $N$ - височините
+            на участъците на пътеката, които е получила вашата програма
+            \code{avi.cpp}.
+        \item Функцията се вика веднъж за всеки тест.
+    \end{itemize}
+\end{itemize}
+В случай, че вашата функция \code{decode} не върне редица $a$, различна от
+зададената, ще получите съобщение „Output isn’t correct.“.
+
+\section*{Пример}
+Грейдърът извършва следното извикване на функция от \code{avi.cpp}:
+\noskip
+\begin{itemize}
+    \item \code{encode([0, 1, 1, 0, 1], 20)}
+        В случая $a_i \leq 1$ за всяко $0 \leq i \leq N-1$ и всяка височина може
+        да се запише с един бит.
+        Функцията връща редицата $1, 0, 0, 1, 0$.
+\end{itemize}
+След това грейдърът се пуска наново и извършва следното извикване на функция от
+\code{bobi.cpp}:
+\noskip
+\begin{itemize}
+    \item \code{decode([1, 0, 0, 1, 0], 5)}
+        Функцията трябва да върне $0, 1, 1, 0, 1$ - оригиналната редица от
+        височини $a$.
+\end{itemize}
+
+\section*{Подзадачи}
+Във всички подзадачи $0 \leq a_i \leq 10^9$ за всяко $0 \leq i \leq N - 1$.
+
+\begin{enumerate}
+    \item (25 точки) $1 \leq N \leq 1000$, $M_{max}=200\ 000$
+    \item (25 точки) $1 \leq N \leq 100\ 000$, $M_{max}=200\ 000$
+    \item (25 точки) $1 \leq N \leq 100\ 000$, $M_{max}=170\ 000$,
+        $|a_{i + 1} - a_i| = 1$ за всяко $0 \leq i \leq N-2$.
+    \item (25 точки) $1 \leq N \leq 100\ 000$, $M_{max}=170\ 000$
+\end{enumerate}
+
+\section*{Локално тестване}
+За да можете да тествате решението си на компютъра си, Ви се предоставят
+файловете \code{Lgrader.cpp}, \code{avi.h} и \code{bobi.h}, които да компилирате
+заедно с Вашите сорсове \code{avi.cpp} и \code{bobi.cpp}. 
+
+За разлика от грейдъра на системата, локалният грейдър изпълнява функциите 
+\code{encode} и \code{decode} наведнъж.
+\noskip
+\subsection*{Вход}
+\noskip
+\begin{itemize}
+    \item Ред 1: две цели числа $N$ и $M_{max}$
+    \item Ред 2: $N$ числа $a_0, a_1, ..., a_{N-1}$
+\end{itemize}
+\noskip
+\subsection*{Изход}
+\noskip
+\begin{itemize}
+    \item Ред 1: редицата $b$, резултатът от Вашата функция \code{encode}
+    \item Ред 2: Нека означим дължината на $b$ с $M$.
+    \begin{itemize}
+        \item Ако $M \leq M_{max}$, редица от $N$ числа,
+            резултатът от Вашата функция \code{decode}
+        \item Ако $M > M_{max}$, „Too many bits used“.
+    \end{itemize}
+\end{itemize}
+
+\section*{Изпращане на тестове към системата}
+За съжаление изпращането на тестове към системата не работи в момента.
+%Можете да изпращате собствени тестове към системата. Форматът на входните данни
+%е същият като този на предоставения локалнен грейдър. Изходните данни се състоят
+%само от \textit{Ред 2} от изхода на локалния грейдър.
+\end{document}
+\makeatother

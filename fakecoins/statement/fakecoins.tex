@@ -1,0 +1,207 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[a4paper, left=2.5cm, right=2.5cm, bottom=2.5cm, top=3.5cm,
+headheight=1cm]{geometry}
+\usepackage{polyglossia}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+
+\setmainfont[Ligatures=TeX]{Noto Serif}
+\newfontfamily\cyrillicfont[Script=Cyrillic]{Noto Serif}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\noskip}{\vspace{-\parskip}}
+
+\setmainlanguage{bulgarian}
+\PolyglossiaSetup{bulgarian}{indentfirst=true}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\setlist{nosep}
+
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\thesection}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage}
+\chead{\uppercase{Национална школа по информатика \\Стара Загора, 24-30 август
+2017 г.}}
+\renewcommand{\headrulewidth}{0pt}
+
+\title{Фалшиви монети}
+\author{Александър Кръстев}
+\date{}
+
+\makeatletter
+\begin{document}
+{%
+    \centering \LARGE 
+    \textbf{\@title}
+    \par
+}
+%\vspace{0.5cm}
+
+Ави и Боби откриват съкровище от $N=2^k$ монети (т.е. $N$ е степен на $2$),
+номерирани $0, 1, ..., (N-1)$.
+Те знаят, че имат $N-2$ монети, тежащи $10$г, $1$ монета, тежаща $9$г
+и една монета, тежаща $11$г.
+Децата искат да разберат коя е $11$ грамовата монета, защото смятат, че
+за разлика от останалите тя е направена от чисто злато.
+Ави и Боби разполагат единствено с везна (без теглилки) и ограничено време,
+за което могат да направят най-много $Q$ претегляния.
+
+Вашата задача е да напишете програма, която да помогне на Ави и Боби да открият
+по-тежката монета.
+
+\section*{Детайли по имплментацията}
+Вашата програма трябва да съдържа в началото си \code{\#include "fakecoins.h"}.
+\\
+Вашата програма трябва да реализира следната функция:
+
+\noskip
+\begin{itemize}
+    \item \code{int find\_heavier(int N)}
+    \begin{itemize}%[noitemsep,topsep=0pt] 
+        \item \code{N}: броят на манетите на Ави и Боби. Гарантирано е, че 
+            $N = 2^k$.
+        \item Функцията трябва да връща на индекса на по-тежката монета 
+            (монетите са индексирани от $0$).
+        \item Функцията се вика веднъж по време на изпълнението на програмата.
+    \end{itemize}
+\end{itemize}
+
+Вашата програма може да задава върпоси, използвайки следната функция:
+\noskip
+\begin{itemize}
+    \item \code{int compare\_coins(std::vector<int> a, std::vector<int> b)}
+    \begin{itemize}
+        \item \code{a}: индексите $a_0, a_1, ..., a_{M-1}$, на монетите, които
+            Ави и Боби поставят на първото блюдо на везната. 
+            Трябва да задоволяват $0 \leq a_i < N$ за всяко $0\leq i \leq M-1$ и
+            $a_i \neq a_j$ за всеки $0\leq i < j \leq M-1$.
+        \item \code{b}: индексите $b_0, b_1, ..., b_{M-1}$, на монетите, които
+            поставят на второто блюдо на везната. 
+            Трябва да задоволяват $0 \leq b_i < N$ за всяко $0\leq i \leq M-1$ и
+            $b_i \neq b_j$ за всеки $0\leq i < j \leq M-1$.
+        \item Всяка монета може да се съдържа най-много в едно от блюдата, т.е.
+            $a_i \neq a_j$ за всеки $0\leq i, j \leq M-1$
+        \item Двете блюда трябва да съдържат равен брой монети, т.е. $a$ и $b$
+            трябва да са с равна дължина.
+        \item Нека монетите в първото блюдо тежат общо $A$, а тези във второто
+            $B$.
+            Функцията връща:
+        \begin{itemize}
+            \item $-1$, ако $A < B$
+            \item $0$, ако $A = B$
+            \item $1$, ако $A > B$
+        \end{itemize}
+        \item Функцията може да се вика $Q$ пъти за един тест.
+    \end{itemize}
+\end{itemize}
+
+В случай, че наруши ограниченията за параметри на \code{compare\_coins}, ще
+получите съобщение „Invalid question asked.“.
+
+В случай, че извикате функцията \code{compare\_coins} повече от $Q$ пъти, ще
+получите съощение „Too many questions asked.“.
+
+\section*{Пример}
+Грейдърът извършва следното извикване на функция:
+\noskip
+\begin{itemize}
+    \item \code{find\_heavier(4)} Ави и Боби имат $N=4$ монети.
+\end{itemize}
+Програмата извършва следните извиквания на функции:
+\noskip
+\begin{itemize}
+    \item \code{compare\_coins([0], [1])} връща -1
+    \item \code{compare\_coins([2, 3], [1, 0])} връща 1
+    \item \code{compare\_coins([1], [2])} връща 0 
+    \item \code{compare\_coins([1], [3])} връща -1
+\end{itemize}
+
+По-леката монета е с индекс $0$, а по-тежката с индекс $3$.
+Съответно \code{compare\_coins} трябва да върне $3$.
+
+\section*{Подзадачи}
+Във всички подзадачи $N = 2^k$.
+
+В някои подзадачи, грейдърът \textit{не e адаптивен}, т.е. за всеки тест
+индексите на по-леката и по-тежката монета са фиксирани преди изпълнението му.
+
+В останлите подзадачи грейърът \textit{е адаптивен}, т.е. индексите на по-леката
+и по-тежката монета могат да се определят в зависимост от въпросите, които
+Вашата програма задава.
+Разбира се, индексите са избират така, че да не противоречат на отговорите,
+които грейдърът е дал на Вашата програма.
+
+\begin{enumerate}
+    \item (20 точки) $1 \leq N \leq 128$, $Q = 128$, гредърът
+        \textit{не е адаптивен}
+    \item (30 точки) $1 \leq N \leq 1024$, $Q = 30$, гредърът
+        \textit{не е адаптивен}
+    \item (40 точки) $1 \leq N \leq 1024$, $Q = 20$, гредърът
+        \textit{е адаптивен}
+    \item (10 точки) $1 \leq N \leq 1024$, $Q = 16$, гредърът
+        \textit{е адаптивен}
+\end{enumerate}
+\section*{Локално тестване}
+За да можете да тествате решението си на компютъра си, Ви се предоставят
+файловете \code{Lgrader.cpp} и \code{fakecoins.h}, които да компилирате
+заедно с Вашето решение \code{fakecoins.cpp}.
+
+\noskip
+\subsection*{Вход}
+\noskip
+\begin{itemize}
+    \item Ред 1: две цели числа $N$ и $Q$
+    \item Ред 2: две цели числа $a$ и $b$: индеските съответно на по-леката и
+        по-тежката монета.
+\end{itemize}
+\noskip
+\subsection*{Изход}
+\noskip
+\begin{itemize}
+    \item Ред 1:
+    \begin{itemize}
+        \item \textit{„Output is correct.“},
+            ако програмата е преминала успешно теста.
+        \item \textit{„Invalid question.“},
+            ако пограмата е задала въпрос, неотговарящ на гореописаните
+            ограничения.
+        \item \textit{„Too many questions asked.“},
+            ако програмата е извършила повече от $Q$ извиквания на
+            \code{compare\_coins}.
+        \item \textit{„Output isn't correct.“},
+            ако програмата не е надвишила максималния разрешен брой въпроси, но
+            не е намерила правилно индекса на по-тежката монета.
+    \end{itemize}
+\end{itemize}
+
+\section*{Изпращане на тестове към системата}
+Можете да изпращате собствени тестове към системата. 
+
+\noskip
+\subsection*{Вход}
+\noskip
+\begin{itemize}
+    \item Ред 1: две цели числа $N$ и $Q$
+    \item Ред 2: 
+    \begin{itemize}
+        \item $0$ $a$ $b$, ако грейдърът не е адаптивен.
+            $a$ и $b$ са съответно индеските на по-леката и по-тежката монета.
+        \item $1$, ако грейдърът е адаптивен.
+    \end{itemize}
+\end{itemize}
+\noskip
+\subsection*{Изход}
+\noskip
+Форматът на изхода е същият като на локалния грейдър.
+\end{document}
+\makeatother

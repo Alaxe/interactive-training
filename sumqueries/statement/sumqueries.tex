@@ -1,0 +1,136 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[a4paper, left=2.5cm, right=2.5cm, bottom=2.5cm, top=3.5cm,
+headheight=1cm]{geometry}
+\usepackage{polyglossia}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+
+\setmainfont[Ligatures=TeX]{Noto Serif}
+\newfontfamily\cyrillicfont[Script=Cyrillic]{Noto Serif}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\noskip}{\vspace{-\parskip}}
+
+\setmainlanguage{bulgarian}
+\PolyglossiaSetup{bulgarian}{indentfirst=true}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\setlist{nosep}
+
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\thesection}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage}
+\chead{\uppercase{Национална школа по информатика \\Стара Загора, 24-30 август
+2017 г.}}
+\renewcommand{\headrulewidth}{0pt}
+
+\title{Заявки за суми}
+\author{Александър Кръстев}
+\date{}
+
+\makeatletter
+\begin{document}
+{%
+    \centering \LARGE 
+    \textbf{\@title}
+    \par
+}
+%\vspace{0.5cm}
+
+Ави има редица от $N$ цели числа $a_0,a_1,...,a_{N-1}$.
+Тя се интересува от сумите на определени подинтервали на редицата.
+Сумата на подинтервал $[i, j]$ ($0 \leq i \leq j \leq N-1$) е равна на 
+$a_i + a_{i+1} + ... + a_j$.
+Тъй като Ави е много заета това лято, тя не може да извърши пресмятанията сама и
+затова Ви моли да ѝ помогнете.
+
+Вашата задача е да напишете програма, която по зададена редица 
+$a_0, a_1, ..., a_{N-1}$ отговаря на заявки за суми на нейни подинтервали.
+
+
+\section*{Детайли по имплментацията}
+Вашата програма трябва да съдържа в началото си \code{\#include "sumqueries.h"}.
+\\
+Вашата програма трябва да реализира следните две функции:
+
+\noskip
+\begin{itemize}
+    \item \code{void init(std::vector<int> a)}
+    \begin{itemize}
+        \item \code{a}: редицата на Ави.
+        \item Функцията не трябва да връща никаква стойност.
+        \item Функцията се вика веднъж за даден тест, в началото на изпълнението
+            на програмата.
+    \end{itemize}
+    \item \code{long long sum(int i, int j)}
+    \begin{itemize}
+        \item \code{i} и \code{j}: началато и краят на подинтервала, чиято сума
+        се търси. Гарантирано е, че $0 \leq i \leq j \leq N-1$.
+        \item Функцията трябва да връща сумата $a_i + a_{i+1} + ... + a_j$.
+        \item Функцията може да се вика много пъти за един тест, но винаги след
+            \code{init}.
+    \end{itemize}
+\end{itemize}
+
+\section*{Пример}
+Първо грейдърът извършва следото извикване на \code{init}
+\noskip
+\begin{itemize}
+    \item \code{init([1, 8, -1, 3, 5])} Редицата на Ави е $1, 8, -1, 3, 5$.
+\end{itemize}
+След това грейдърът извършва следните извиквания на \code{sum}
+\noskip
+\begin{itemize}
+    \item \code{sum(0, 0)} трябва да върне 1.
+    \item \code{sum(0, 2)} трябва да върне 8.
+    \item \code{sum(2, 4)} трябва да върне 7.
+    \item \code{sum(0, 4)} трябва да върне 16.
+    \item \code{sum(1, 3)} трябва да върне 10.
+\end{itemize}
+
+\section*{Подзадачи}
+Във всички подзадачи $-10^9 \leq a_i \leq 10^9$ за всяко $0 \leq i \leq N - 1$.
+
+Нека означим с $Q$ броя на извикванията на Вашата функция \code{sum} от
+грейдъра.
+\noskip
+\begin{enumerate}
+    \item (50 точки) $1 \leq N \leq 1\ 000$, $1 \leq Q \leq 1\ 000$
+    \item (50 точки) $1 \leq N \leq 200\ 000$, $1 \leq Q \leq 200\ 000$
+\end{enumerate}
+\section*{Локално тестване}
+За да можете да тествате решението си на компютъра си, Ви се предоставят
+файловете \code{Lgrader.cpp} и \code{sumqueries.h}, които да компилирате
+заедно с Вашето решение \code{sumqueries.cpp}.
+
+\noskip
+\subsection*{Вход}
+\noskip
+\begin{itemize}
+    \item Ред 1: две цели числа $N$ и $Q$
+    \item Ред 2: $N$ числа $a_0, a_1, ..., a_{N-1}$
+    \item Следващите $Q$ реда: по две цели числа $i$ и $j$, началото и краят на
+        подинтервала на съответната заявка
+\end{itemize}
+\noskip
+\subsection*{Изход}
+\noskip
+\begin{itemize}
+    \item $Q$ реда: по едно цяло число, отговора на съответната заявка.
+\end{itemize}
+
+\section*{Изпращане на тестове към системата}
+Можете да изпращате собствени тестове към системата. Форматът на входните и
+изходните данни е същият като този на предоставения локалнен грейдър.
+\end{document}
+\makeatother
