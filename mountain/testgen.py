@@ -36,6 +36,6 @@ def gen_subtask(max_n, m, name, test_cnt = 5, allow_eq = True):
         write(generate(max_n, m, allow_eq = allow_eq), path.join(outDir, '{0}-{1}'.format(name, i)))
 
 gen_subtask(1000, 200000, '1')
-gen_subtask(100000, 200000, '2')
+gen_subtask(100000, 210000, '2')
 gen_subtask(100000, 170000, '3', allow_eq = False)
 gen_subtask(100000, 170000, '4')

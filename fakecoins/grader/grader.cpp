@@ -123,8 +123,17 @@ int main()
 	Grader::qLeft = q;
 	Grader::n = n;
 
-	Grader::lighter = -1;
-	Grader::heavier = -1;
+	int mode;
+	assert(fscanf(Grader::in, "%i", &mode) == 1);
+	if (mode == 0)
+	{
+		assert(fscanf(Grader::in, "%i %i", &Grader::lighter, &Grader::heavier) == 2);
+	}
+	else
+	{
+		Grader::lighter = -1;
+		Grader::heavier = -1;
+	}
 
 	for(int i = 0; i < n; i++) 
 		Grader::impossible[i].reset();
